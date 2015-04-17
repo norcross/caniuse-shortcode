@@ -181,12 +181,72 @@ class CIU_Shortcode_Helper
 
 		// set the labels in an array
 		$labels = array(
-            'rec'   => __( 'W3C Recommendation', 'caniuse-shortcode' ),
-            'pr'    => __( 'W3C Proposed Recommendation', 'caniuse-shortcode' ),
-            'cr'    => __( 'W3C Candidate Recommendation', 'caniuse-shortcode' ),
-            'wd'    => __( 'W3C Working Draft', 'caniuse-shortcode' ),
-            'other' => __( 'Non-W3C, but Reputable', 'caniuse-shortcode' ),
-            'unoff' => __( 'Unofficial or W3C "Note"', 'caniuse-shortcode' ),
+			'rec'   => __( 'W3C Recommendation', 'caniuse-shortcode' ),
+			'pr'    => __( 'W3C Proposed Recommendation', 'caniuse-shortcode' ),
+			'cr'    => __( 'W3C Candidate Recommendation', 'caniuse-shortcode' ),
+			'wd'    => __( 'W3C Working Draft', 'caniuse-shortcode' ),
+			'other' => __( 'Non-W3C, but Reputable', 'caniuse-shortcode' ),
+			'unoff' => __( 'Unofficial or W3C "Note"', 'caniuse-shortcode' ),
+		);
+
+		// return the key
+		return array_key_exists( $key, $labels ) ? $labels[$key] : false;
+	}
+
+	/**
+	 * get the visual label from a key for support
+	 *
+	 * @param  string $key [description]
+	 * @return [type]      [description]
+	 */
+	public static function get_spec_support_label( $key = '' ) {
+
+		// bail with no key
+		if ( empty( $key ) ) {
+			return false;
+		}
+
+		// set the labels in an array
+		$labels = array(
+			'y' => __( 'Yes', 'caniuse-shortcode' ),
+			'x' => __( 'With Prefix', 'caniuse-shortcode' ),
+			'n' => __( 'No', 'caniuse-shortcode' ),
+			'a' => __( 'Partial Support', 'caniuse-shortcode' ),
+			'p' => __( 'Polyfill', 'caniuse-shortcode' ),
+			'u' => __( 'Unknown', 'caniuse-shortcode' ),
+		);
+
+		// return the key
+		return array_key_exists( $key, $labels ) ? $labels[$key] : false;
+	}
+
+	/**
+	 * get the proper label for a browser key
+	 *
+	 * @param  string $key [description]
+	 * @return [type]      [description]
+	 */
+	public static function get_browser_label( $key = '' ) {
+
+		// bail with no key
+		if ( empty( $key ) ) {
+			return false;
+		}
+
+		// set the labels in an array
+		$labels = array(
+			'android'   => __( 'Android', 'caniuse-shortcode' ),
+			'and_ff'    => __( 'Android Firefox', 'caniuse-shortcode' ),
+			'and_chr'   => __( 'Android Chrome', 'caniuse-shortcode' ),
+			'bb'        => __( 'Blackberry', 'caniuse-shortcode' ),
+			'chrome'    => __( 'Google Chrome', 'caniuse-shortcode' ),
+			'firefox'   => __( 'Mozilla Firefox', 'caniuse-shortcode' ),
+			'ie'        => __( 'Internet Explorer', 'caniuse-shortcode' ),
+			'ios_saf'   => __( 'iOS Safari', 'caniuse-shortcode' ),
+			'opera'     => __( 'Opera', 'caniuse-shortcode' ),
+			'op_mini'   => __( 'Opera Mini', 'caniuse-shortcode' ),
+			'op_mob'    => __( 'Opera Mobile', 'caniuse-shortcode' ),
+			'safari'    => __( 'Apple Safari', 'caniuse-shortcode' ),
 		);
 
 		// return the key
@@ -269,8 +329,38 @@ class CIU_Shortcode_Helper
 					continue;
 				}
 
-				$build .= '<li class="icon-' . esc_attr( $browser ). ' y" title="Chrome - Yes"><span class="version">21*</span></li>';
+				// set my flag and version
+				$flag   = 'n';
+				$vers   = '';
 
+				// now check for a yes flag
+				foreach ( $data[ $browser ] as $version => $result ) {
+
+					// if we have a "y" in the thing, do it
+					if ( false !== stripos( $result, 'y' ) ) {
+
+						// set my flags
+						$flag   = 'y';
+						$vers   = $version;
+
+						// and break
+						break;
+					}
+				}
+
+				// get some variables
+				$blabel = self::get_browser_label( $browser );
+				$yorn   = $flag == 'n' ? __( 'No', 'caniuse-shortcode' ) : __( 'Yes', 'caniuse-shortcode' );
+				$vlabel = $flag == 'y' && ! empty( $vers ) ? esc_attr( $vers ) : __( 'No', 'caniuse-shortcode' );
+
+				// start the markup
+				$build .= '<li class="icon-' . esc_attr( $browser ). ' ' . esc_attr( $flag ). '" title="' . esc_attr( $blabel ) . ' - ' . esc_attr( $yorn ) . '">';
+
+				// the version label
+				$build .= '<span class="version">' . esc_attr( $vlabel ). '</span>';
+
+				// close the markup
+				$build .= '</li>';
 			}
 
 			// close the list output

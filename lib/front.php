@@ -32,7 +32,7 @@ class CIU_Shortcode_Front
 	 * [__construct description]
 	 */
 	public function __construct() {
-//		add_action( 'wp_enqueue_scripts',                   array( $this, 'front_scripts'               ),  10      );
+	//	add_action( 'wp_enqueue_scripts',                   array( $this, 'front_scripts'               ),  10      );
 		add_action( 'wp_enqueue_scripts',                   array( $this, 'front_styles'                ),  10      );
 		add_shortcode( 'ciu-display',                       array( $this, 'caniuse_display_setup'       )           );
 	}
@@ -106,6 +106,9 @@ class CIU_Shortcode_Front
 			return;
 		}
 
+	//	preprint( $data, true );
+	//	return '<div class="caniuse" data-feature="' . esc_attr( $args['feature'] ) . '"></div>';
+
 		// set an empty build
 		$build  = '';
 
@@ -126,7 +129,6 @@ class CIU_Shortcode_Front
 
 		// return it
 		return $build;
-	//	preprint( $data, true );
 
 		// return the shortcode
 	//	return '<div class="caniuse" data-feature="' . esc_attr( $args['feature'] ) . '"></div>';
