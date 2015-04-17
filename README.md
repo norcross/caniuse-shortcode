@@ -1,12 +1,20 @@
 # Can I Use? Shortcode #
 **Contributors:** norcross
+
 **Website Link:** https://github.com/norcross/caniuse-shortcode
+
 **Donate link:** https://andrewnorcross.com/donate
+
 **Tags:** HTML5, CSS3, web standards, browser support
+
 **Requires at least:** 4.0
+
 **Tested up to:** 4.1
+
 **Stable tag:** 0.0.1
+
 **License:** MIT
+
 **License URI:** http://opensource.org/licenses/mit-license.php
 
 
