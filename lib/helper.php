@@ -75,7 +75,7 @@ class CIU_Shortcode_Helper
 		$key    = sanitize_title_with_dashes( $feature, '', 'save' );
 
 		// check for transient before going forward
-	//	if( false === $data = get_transient( 'ciu_support_' . $key ) ) {
+		if( false === $data = get_transient( 'ciu_support_' . $key ) ) {
 
 			// set the default HTTP call args
 			$args	= array(
@@ -84,7 +84,15 @@ class CIU_Shortcode_Helper
 			);
 
 			// construct the API URL
-			$url    = 'https://raw.github.com/Fyrd/caniuse/master/data.json';
+			$url    = apply_filters( 'ciu_data_url', 'https://raw.github.com/Fyrd/caniuse/master/data.json' );
+
+			// if for some reason we messed up the URL, bail
+			if ( empty( $url ) ) {
+				return array(
+					'error' => true,
+					'cause' => 'NO_SOURCE_URL'
+				);
+			}
 
 			// make the request
 			$resp   = wp_remote_get( esc_url( $url ), $args );
@@ -139,7 +147,7 @@ class CIU_Shortcode_Helper
 				);
 			}
 
-			// bail if key not found
+			// bail if data portion not found
 			if ( ! array_key_exists( $key, $decode['data'] ) ) {
 				return array(
 					'error' => true,
@@ -159,8 +167,8 @@ class CIU_Shortcode_Helper
 			}
 
 			// set the transient
-	//		set_transient( 'ciu_support_' . $key, $data, DAY_IN_SECONDS );
-	//	}
+			set_transient( 'ciu_support_' . $key, $data, DAY_IN_SECONDS );
+		}
 
 		// return the data
 		return $data;
@@ -254,160 +262,66 @@ class CIU_Shortcode_Helper
 	}
 
 	/**
-	 * get the header items for the display
+	 * check each item against the chosen browser and return
+	 * the proper results
 	 *
-	 * @param  array  $data [description]
-	 * @return [type]       [description]
+	 * @param  array  $dataset [description]
+	 * @return [type]          [description]
 	 */
-	public static function get_display_header( $data = array() ) {
+	public static function get_support_result( $dataset = array() ) {
 
-		// set an empty build
-		$build  = '';
+		// do a quick polyfill check
+		$partcheck = array_search( 'a', $dataset );
 
-		// the header
-		$build .= '<div class="caniuse-header">';
+		// loop my dataset
+		foreach ( $dataset as $vers => $result ) {
 
-			// show the title
-			if ( ! empty( $data['title'] ) ) {
-				$build .= '<h3>' . esc_attr( $data['title'] ) . '</h3>';
+			// strip my version down to handle the weird stuff
+			$vers   = substr( trim( $vers ), 0, 3 );
+
+			// if we have a "y" in the thing, do it
+			if ( substr( trim( $result ), 0, 1 ) == 'y' ) {
+
+				// check for prefix setup
+				$pfix   = false !== stripos( $result, 'x' ) ? true : false;
+
+				// and return it
+				return array( 'flag' => 'y', 'vers' => $vers, 'pfix' => $pfix );
 			}
 
-			// show the description
-			if ( ! empty( $data['description'] ) ) {
-				$build .= wpautop( esc_attr( $data['description'] ) );
+			// no direct "yes" so check for partial
+			if ( substr( trim( $result ), 0, 1 ) == 'a' ) {
+
+				// check for prefix setup
+				$pfix   = false !== stripos( $result, 'x' ) ? true : false;
+
+				// and return it
+				return array( 'flag' => 'a', 'vers' => $vers, 'pfix' => $pfix );
 			}
 
-			// show the status
-			if ( ! empty( $data['status'] ) && false !== $label = self::get_spec_status_label( $data['status'] ) ) {
-				$build .= '<p class="status">' . esc_attr( $label ) . '</p>';
+			// no direct "yes" or "partial" so check for polyfill
+			if ( false === $partcheck && substr( trim( $result ), 0, 1 ) == 'p' ) {
+
+				// check for prefix setup
+				$pfix   = false !== stripos( $result, 'x' ) ? true : false;
+
+				// and return it
+				return array( 'flag' => 'p', 'vers' => $vers, 'pfix' => $pfix );
 			}
 
-			// and the supported intro
-			$build .= '<p>' . __( 'Supported from the following versions:', 'caniuse-shortcode' ) . '</p>';
+			// no direct "yes", "partial", or "polyfill" so check for unknown
+			if ( substr( trim( $result ), 0, 1 ) == 'u' ) {
 
-		// close the header
-		$build .= '</div>';
+				// check for prefix setup
+				$pfix   = false !== stripos( $result, 'x' ) ? true : false;
 
-		// return it
-		return $build;
-	}
-
-	/**
-	 * get the items for the display
-	 *
-	 * @param  array  $data  [description]
-	 * @param  string $check [description]
-	 * @param  string $title [description]
-	 * @return [type]        [description]
-	 */
-	public static function get_display_row( $data = array(), $check = '', $title = '' ) {
-
-		// bail with no check key
-		if ( empty( $check ) || false === $checks = self::get_support_checks( $check ) ) {
-			return;
+				// and return it
+				return array( 'flag' => 'u', 'vers' => $vers, 'pfix' => $pfix );
+			}
 		}
 
-		// set an empty build
-		$build  = '';
-
-		// the header
-		$build .= '<div class="caniuse-section">';
-
-			// show the title
-			if ( ! empty( $title ) ) {
-				$build .= '<h4>' . esc_attr( $title ) . '</h4>';
-			}
-
-			// now the output of lists
-			$build .= '<ul class="agents">';
-
-			// loop them
-			foreach ( $checks as $key => $browser ) {
-
-				// check to make sure we have it
-				if ( empty( $data[ $browser ] ) ) {
-					continue;
-				}
-
-				// set my flag and version
-				$flag   = 'n';
-				$vers   = '';
-
-				// now check for a yes flag
-				foreach ( $data[ $browser ] as $version => $result ) {
-
-					// if we have a "y" in the thing, do it
-					if ( false !== stripos( $result, 'y' ) ) {
-
-						// set my flags
-						$flag   = 'y';
-						$vers   = $version;
-
-						// and break
-						break;
-					}
-				}
-
-				// get some variables
-				$blabel = self::get_browser_label( $browser );
-				$yorn   = $flag == 'n' ? __( 'No', 'caniuse-shortcode' ) : __( 'Yes', 'caniuse-shortcode' );
-				$vlabel = $flag == 'y' && ! empty( $vers ) ? esc_attr( $vers ) : __( 'No', 'caniuse-shortcode' );
-
-				// start the markup
-				$build .= '<li class="icon-' . esc_attr( $browser ). ' ' . esc_attr( $flag ). '" title="' . esc_attr( $blabel ) . ' - ' . esc_attr( $yorn ) . '">';
-
-				// the version label
-				$build .= '<span class="version">' . esc_attr( $vlabel ). '</span>';
-
-				// close the markup
-				$build .= '</li>';
-			}
-
-			// close the list output
-			$build .= '</ul>';
-
-		// close the header
-		$build .= '</div>';
-
-		// return it
-		return $build;
-	}
-
-
-	/**
-	 * get the legend for the display
-	 *
-	 * @return [type]        [description]
-	 */
-	public static function get_display_legend( $data = array(), $check = '', $title = '' ) {
-
-		// set an empty build
-		$build  = '';
-
-		// the header
-		$build .= '<div class="caniuse-section caniuse-section-legend">';
-
-			// now the output of lists
-			$build .= '<ul class="legend">';
-
-				// list each thing
-				$build .= '<li>' . __( 'Supported:', 'caniuse-shortcode' ) . '</li>';
-				$build .= '<li class="y">' . __( 'Yes', 'caniuse-shortcode' ) . '</li>';
-				$build .= '<li class="n">' . __( 'No', 'caniuse-shortcode' ) . '</li>';
-				$build .= '<li class="a">' . __( 'Partially', 'caniuse-shortcode' ) . '</li>';
-				$build .= '<li class="p">' . __( 'Polyfill', 'caniuse-shortcode' ) . '</li>';
-
-			// close the list output
-			$build .= '</ul>';
-
-			// show the source
-			$build .= '<p class="stats">' . sprintf( __( 'Stats from <a target="_blank" href="%s">caniuse.com</a>', 'caniuse-shortcode' ), esc_url( 'http://caniuse.com/#feat=stream' ) ) . '</p>';
-
-		// close the header
-		$build .= '</div>';
-
-		// return it
-		return $build;
+		// set my fallback support results
+		return array( 'flag' => 'n', 'vers' => '', 'pfix' => false );
 	}
 
 // end class

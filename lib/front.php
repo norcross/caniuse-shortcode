@@ -32,7 +32,6 @@ class CIU_Shortcode_Front
 	 * [__construct description]
 	 */
 	public function __construct() {
-	//	add_action( 'wp_enqueue_scripts',                   array( $this, 'front_scripts'               ),  10      );
 		add_action( 'wp_enqueue_scripts',                   array( $this, 'front_styles'                ),  10      );
 		add_shortcode( 'ciu-display',                       array( $this, 'caniuse_display_setup'       )           );
 	}
@@ -42,29 +41,17 @@ class CIU_Shortcode_Front
 	 *
 	 * @return [type]       [description]
 	 */
-	public function front_scripts() {
-
-		// call the global post object
-		global $post;
-
-		// check if we are on a post and using the shortcode
-		if( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'ciu-display') ) {
-
-			// set a version for the files based on debug mode or not
-			$vers   = defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : CIU_SHORTCODE_VER;
-			$sffx   = defined( 'WP_DEBUG' ) && WP_DEBUG ? '.js' : '.min.js';
-
-			// load the file
-			wp_enqueue_script( 'ciu-display', plugins_url( '/js/caniuse' . $sffx, __FILE__ ) , array(), $vers, true );
-		}
-	}
-
-	/**
-	 * load the front CSS and JS files for the shortcode
-	 *
-	 * @return [type]       [description]
-	 */
 	public function front_styles() {
+
+		// bail if not singular
+		if ( ! is_singular() ) {
+			return;
+		}
+
+		// check for our CSS bypass
+		if ( false !== apply_filters( 'ciu_disable_css', false ) ) {
+			return;
+		}
 
 		// call the global post object
 		global $post;
@@ -106,9 +93,6 @@ class CIU_Shortcode_Front
 			return;
 		}
 
-	//	preprint( $data, true );
-	//	return '<div class="caniuse" data-feature="' . esc_attr( $args['feature'] ) . '"></div>';
-
 		// set an empty build
 		$build  = '';
 
@@ -116,22 +100,22 @@ class CIU_Shortcode_Front
 		$build .= '<div class="caniuse">';
 
 			// the header
-			$build .= CIU_Shortcode_Helper::get_display_header( $data );
+			$build .= CIU_Shortcode_Display::get_display_header( $data );
+
+			// desktop row
+			$build .= CIU_Shortcode_Display::get_display_row( $data['stats'], 'desktop', __( 'Desktop', 'caniuse-shortcode' ) );
 
 			// mobile row
-			$build .= CIU_Shortcode_Helper::get_display_row( $data['stats'], 'desktop', __( 'Desktop', 'caniuse-shortcode' ) );
+			$build .= CIU_Shortcode_Display::get_display_row( $data['stats'], 'mobile', __( 'Mobile / Tablet', 'caniuse-shortcode' ) );
 
 			// legend
-			$build .= CIU_Shortcode_Helper::get_display_legend();
+			$build .= CIU_Shortcode_Display::get_display_legend();
 
 		// close the wrapper
 		$build .= '</div>';
 
 		// return it
 		return $build;
-
-		// return the shortcode
-	//	return '<div class="caniuse" data-feature="' . esc_attr( $args['feature'] ) . '"></div>';
 	}
 
 // end class

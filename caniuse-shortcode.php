@@ -92,8 +92,9 @@ class CIU_Shortcode_Core {
 		}
 
 		// load my files
-		require_once( 'lib/front.php'  );
-		require_once( 'lib/helper.php' );
+		require_once( 'lib/front.php'   );
+		require_once( 'lib/helper.php'  );
+		require_once( 'lib/display.php' );
 	}
 
 /// end class
