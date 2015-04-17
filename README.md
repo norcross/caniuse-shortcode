@@ -54,11 +54,11 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 ###1. Example display of data
 ###
-[assets/screenshot-1.png]
+![ScreenShot](/assets/screenshot-1.png)
 
 ###2. Example of shortcode
 ###
-[assets/screenshot-2.png]
+![ScreenShot](/assets/screenshot-2.png)
 
 
 
