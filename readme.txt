@@ -35,7 +35,7 @@ Chris Coyier mentioned it. I needed something to distract me for a few hours. So
 
 = How do I use the shortcode? =
 
-Place the following code in your post or page `[ciu-display feature="FEATURE-NAME-NERE"]`
+Place the following code in your post or page `[caniuse feature="FEATURE-NAME-NERE"]`
 
 = Can I customize it? =
 

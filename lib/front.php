@@ -33,7 +33,7 @@ class CIU_Shortcode_Front
 	 */
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts',                   array( $this, 'front_styles'                ),  10      );
-		add_shortcode( 'ciu-display',                       array( $this, 'caniuse_display_setup'       )           );
+		add_shortcode( 'caniuse',                           array( $this, 'caniuse_display_setup'       )           );
 	}
 
 	/**
@@ -49,7 +49,7 @@ class CIU_Shortcode_Front
 		}
 
 		// check for our CSS bypass
-		if ( false !== apply_filters( 'ciu_disable_css', false ) ) {
+		if ( false !== $css = apply_filters( 'ciu_disable_css', false ) ) {
 			return;
 		}
 
@@ -57,7 +57,7 @@ class CIU_Shortcode_Front
 		global $post;
 
 		// check if we are on a post and using the shortcode
-		if( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'ciu-display') ) {
+		if( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'caniuse') ) {
 
 			// set a version for the files based on debug mode or not
 			$vers   = defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : CIU_SHORTCODE_VER;
