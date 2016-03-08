@@ -44,7 +44,7 @@ class CIU_Shortcode_Display
 
 			// show the title
 			if ( ! empty( $data['title'] ) ) {
-				$build .= '<h3>' . esc_attr( $data['title'] ) . '</h3>';
+				$build .= '<h3 class="caniuse-header-title">' . esc_attr( $data['title'] ) . '</h3>';
 			}
 
 			// show the description
@@ -54,11 +54,11 @@ class CIU_Shortcode_Display
 
 			// show the status
 			if ( ! empty( $data['status'] ) && false !== $label = CIU_Shortcode_Helper::get_spec_status_label( $data['status'] ) ) {
-				$build .= '<p class="status">' . esc_attr( $label ) . '</p>';
+				$build .= '<p class="status caniuse-header-status">' . esc_attr( $label ) . '</p>';
 			}
 
 			// and the supported intro
-			$build .= '<p>' . __( 'Supported from the following versions:', 'caniuse-shortcode' ) . '</p>';
+			$build .= '<p class="caniuse-header-supported">' . __( 'Supported from the following versions:', 'caniuse-shortcode' ) . '</p>';
 
 		// close the header
 		$build .= '</div>';
@@ -94,7 +94,7 @@ class CIU_Shortcode_Display
 			}
 
 			// now the output of lists
-			$build .= '<ul class="agents">';
+			$build .= '<ul class="agents caniuse-agents-list">';
 
 			// loop them
 			foreach ( $checks as $key => $browser ) {
@@ -114,10 +114,10 @@ class CIU_Shortcode_Display
 				$plabel = ! empty( $sppt['pfix'] ) ? '*' : '';
 
 				// start the markup
-				$build .= '<li class="icon-' . esc_attr( $browser ). ' ' . esc_attr( $sppt['flag'] ). '" title="' . esc_attr( $blabel ) . ' - ' . esc_attr( $yorn ) . '">';
+				$build .= '<li class="caniuse-agents-item icon-' . esc_attr( $browser ). ' ' . esc_attr( $sppt['flag'] ). '" title="' . esc_attr( $blabel ) . ' - ' . esc_attr( $yorn ) . '">';
 
 				// the version label
-				$build .= '<span class="version">' . esc_attr( $vlabel . $plabel ). '</span>';
+				$build .= '<span class="caniuse-agents-version version">' . esc_attr( $vlabel . $plabel ). '</span>';
 
 				// close the markup
 				$build .= '</li>';
@@ -147,23 +147,23 @@ class CIU_Shortcode_Display
 		$build .= '<div class="caniuse-section caniuse-section-legend">';
 
 			// the message regarding prefix
-			$build .= '<p>' . __( '* denotes prefix required.', 'caniuse-shortcode' ) . '</p>';
+			$build .= '<p class="caniuse-section-text caniuse-section-subtext	">' . __( '* denotes prefix required.', 'caniuse-shortcode' ) . '</p>';
 
 			// now the output of lists
-			$build .= '<ul class="legend">';
+			$build .= '<ul class="legend caniuse-legend-list">';
 
 				// list each thing
-				$build .= '<li>' . __( 'Supported:', 'caniuse-shortcode' ) . '</li>';
-				$build .= '<li class="y">' . __( 'Yes', 'caniuse-shortcode' ) . '</li>';
-				$build .= '<li class="n">' . __( 'No', 'caniuse-shortcode' ) . '</li>';
-				$build .= '<li class="a">' . __( 'Partially', 'caniuse-shortcode' ) . '</li>';
-				$build .= '<li class="p">' . __( 'Polyfill', 'caniuse-shortcode' ) . '</li>';
+				$build .= '<li class="caniuse-legend-item caniuse-legend-label">' . __( 'Supported:', 'caniuse-shortcode' ) . '</li>';
+				$build .= '<li class="caniuse-legend-item y">' . __( 'Yes', 'caniuse-shortcode' ) . '</li>';
+				$build .= '<li class="caniuse-legend-item n">' . __( 'No', 'caniuse-shortcode' ) . '</li>';
+				$build .= '<li class="caniuse-legend-item a">' . __( 'Partially', 'caniuse-shortcode' ) . '</li>';
+				$build .= '<li class="caniuse-legend-item p">' . __( 'Polyfill', 'caniuse-shortcode' ) . '</li>';
 
 			// close the list output
 			$build .= '</ul>';
 
 			// show the source
-			$build .= '<p class="stats">' . sprintf( __( 'Stats from <a target="_blank" href="%s">caniuse.com</a>', 'caniuse-shortcode' ), esc_url( 'http://caniuse.com/#feat=stream' ) ) . '</p>';
+			$build .= '<p class="stats caniuse-section-text caniuse-section-stats">' . sprintf( __( 'Stats from <a target="_blank" href="%s">caniuse.com</a>', 'caniuse-shortcode' ), esc_url( 'http://caniuse.com/#feat=stream' ) ) . '</p>';
 
 		// close the header
 		$build .= '</div>';
