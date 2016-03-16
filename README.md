@@ -9,9 +9,9 @@
 
 **Requires at least:** 4.0
 
-**Tested up to:** 4.1
+**Tested up to:** 4.4
 
-**Stable tag:** 0.0.1
+**Stable tag:** 0.0.2
 
 **License:** MIT
 
@@ -52,18 +52,18 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 ## Screenshots ##
 
-###1. Example display of data
-###
-![ScreenShot](/assets/screenshot-1.png)
+###1. Example display of data ###
+![Example display of data](/assets/screenshot-1.png)
 
-###2. Example of shortcode
-###
-![ScreenShot](/assets/screenshot-2.png)
+###2. Example of shortcode ###
+![Example of shortcode](/assets/screenshot-2.png)
 
 
 
 ## Changelog ##
 
+### 0.0.2 ###
+* Fixed CSS bug with assigning icons to class.
 
 ### 0.0.1 ###
 * First release!
