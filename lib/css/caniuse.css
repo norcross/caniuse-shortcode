@@ -115,6 +115,7 @@
   color: #555;
   font-size: 2em;
 }
+.caniuse .agents li.caniuse-agents-item:before,
 .caniuse .agents li[class^="icon-"]:before,
 .caniuse .agents li [class*=" icon-"]:before {
   font-family: 'agents';
