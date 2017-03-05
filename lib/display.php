@@ -6,177 +6,163 @@
  *
  * @package Can I Use Shortcode
  */
-/*  Copyright 2015 Reaktiv Studios
 
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation; version 2 of the License (GPL v2) only.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
-if ( ! class_exists( 'CIU_Shortcode_Display' ) ) {
-
-// Start up the engine
+/**
+ * Lets start the engine.
+ */
 class CIU_Shortcode_Display
 {
 
 	/**
-	 * get the header items for the display
+	 * Get the header items for the display.
 	 *
-	 * @param  array  $data [description]
-	 * @return [type]       [description]
+	 * @param  array $data  The data array used to build the display header.
+	 *
+	 * @return HTML
 	 */
 	public static function get_display_header( $data = array() ) {
 
-		// set an empty build
+		// Set an empty build.
 		$build  = '';
 
-		// the header
+		// Wrap the header in a div.
 		$build .= '<div class="caniuse-header">';
 
-			// show the title
+			// Show the title if we have one.
 			if ( ! empty( $data['title'] ) ) {
-				$build .= '<h3 class="caniuse-header-title">' . esc_attr( $data['title'] ) . '</h3>';
+				$build .= '<h3 class="caniuse-header-title">' . esc_html( $data['title'] ) . '</h3>';
 			}
 
-			// show the description
+			// Show the description if we have one.
 			if ( ! empty( $data['description'] ) ) {
-				$build .= wpautop( esc_attr( $data['description'] ) );
+				$build .= wpautop( esc_html( $data['description'] ) );
 			}
 
-			// show the status
+			// Show the status if we have one.
 			if ( ! empty( $data['status'] ) && false !== $label = CIU_Shortcode_Helper::get_spec_status_label( $data['status'] ) ) {
-				$build .= '<p class="status caniuse-header-status">' . esc_attr( $label ) . '</p>';
+				$build .= '<p class="status caniuse-header-status">' . esc_html( $label ) . '</p>';
 			}
 
-			// and the supported intro
+			// And the supported intro.
 			$build .= '<p class="caniuse-header-supported">' . __( 'Supported from the following versions:', 'caniuse-shortcode' ) . '</p>';
 
-		// close the header
+		// Close the header div.
 		$build .= '</div>';
 
-		// return it
+		// Return it.
 		return $build;
 	}
 
 	/**
-	 * get the items for the display
+	 * Get the items for the display row.
 	 *
-	 * @param  array  $data  [description]
-	 * @param  string $check [description]
-	 * @param  string $title [description]
-	 * @return [type]        [description]
+	 * @param  array  $data   The data array used to build the display row.
+	 * @param  string $check  What item we're checking against.
+	 * @param  string $title  The section row title.
+	 *
+	 * @return HTML
 	 */
 	public static function get_display_row( $data = array(), $check = '', $title = '' ) {
 
-		// bail with no check key
+		// Bail with no check key.
 		if ( empty( $check ) || false === $checks = CIU_Shortcode_Helper::get_support_checks( $check ) ) {
 			return;
 		}
 
-		// set an empty build
+		// Set an empty build.
 		$build  = '';
 
-		// the header
+		// Wrap the item in a div.
 		$build .= '<div class="caniuse-section">';
 
-			// show the title
+			// Show the title if we have one.
 			if ( ! empty( $title ) ) {
-				$build .= '<h4>' . esc_attr( $title ) . '</h4>';
+				$build .= '<h4>' . esc_html( $title ) . '</h4>';
 			}
 
-			// now the output of lists
+			// Now the output of lists.
 			$build .= '<ul class="agents caniuse-agents-list">';
 
-			// loop them
+			// Loop them.
 			foreach ( $checks as $key => $browser ) {
 
-				// check to make sure we have data for the specific browser
+				// Check to make sure we have data for the specific browser.
 				if ( empty( $data[ $browser ] ) ) {
 					continue;
 				}
 
-				// set my browser data array
+				// Set my browser data array.
 				$sppt   = CIU_Shortcode_Helper::get_support_result( $data[ $browser ] );
 
-				// get some variables
+				// Get some variables.
 				$blabel = CIU_Shortcode_Helper::get_browser_label( $browser );
 				$yorn   = CIU_Shortcode_Helper::get_spec_support_label( $sppt['flag'] );
 				$vlabel = ! empty( $sppt['vers'] ) ? esc_attr( $sppt['vers'] ) : __( 'No', 'caniuse-shortcode' );
 				$plabel = ! empty( $sppt['pfix'] ) ? '*' : '';
 
-				// start the markup
+				// Start the markup.
 				$build .= '<li class="caniuse-agents-item icon-' . esc_attr( $browser ). ' ' . esc_attr( $sppt['flag'] ). '" title="' . esc_attr( $blabel ) . ' - ' . esc_attr( $yorn ) . '">';
 
-				// the version label
-				$build .= '<span class="caniuse-agents-version version">' . esc_attr( $vlabel . $plabel ). '</span>';
+				// The version label.
+				$build .= '<span class="caniuse-agents-version version">' . esc_html( $vlabel . $plabel ). '</span>';
 
-				// close the markup
+				// Close the markup.
 				$build .= '</li>';
 			}
 
-			// close the list output
+			// Close the list output.
 			$build .= '</ul>';
 
-		// close the header
+		// Close the section div.
 		$build .= '</div>';
 
-		// return it
+		// Return it.
 		return $build;
 	}
 
 	/**
-	 * get the legend for the display
+	 * Get the legend for the display item.
 	 *
-	 * @return [type]        [description]
+	 * @param  string $feature  The individual feature we're checking.
+	 *
+	 * @return HTML
 	 */
-	public static function get_display_legend( $data = array(), $check = '', $title = '' ) {
+	public static function get_display_legend( $feature = '' ) {
 
-		// set an empty build
+		// Set an empty build.
 		$build  = '';
 
-		// the header
+		// Wrap the legend in a div.
 		$build .= '<div class="caniuse-section caniuse-section-legend">';
 
-			// the message regarding prefix
+			// The message regarding prefix.
 			$build .= '<p class="caniuse-section-text caniuse-section-subtext	">' . __( '* denotes prefix required.', 'caniuse-shortcode' ) . '</p>';
 
-			// now the output of lists
+			// Now the output of lists.
 			$build .= '<ul class="legend caniuse-legend-list">';
 
-				// list each thing
+				// List each thing.
 				$build .= '<li class="caniuse-legend-item caniuse-legend-label">' . __( 'Supported:', 'caniuse-shortcode' ) . '</li>';
 				$build .= '<li class="caniuse-legend-item y">' . __( 'Yes', 'caniuse-shortcode' ) . '</li>';
 				$build .= '<li class="caniuse-legend-item n">' . __( 'No', 'caniuse-shortcode' ) . '</li>';
 				$build .= '<li class="caniuse-legend-item a">' . __( 'Partially', 'caniuse-shortcode' ) . '</li>';
 				$build .= '<li class="caniuse-legend-item p">' . __( 'Polyfill', 'caniuse-shortcode' ) . '</li>';
 
-			// close the list output
+			// Close the list output.
 			$build .= '</ul>';
 
-			// show the source
-			$build .= '<p class="stats caniuse-section-text caniuse-section-stats">' . sprintf( __( 'Stats from <a target="_blank" href="%s">caniuse.com</a>', 'caniuse-shortcode' ), esc_url( 'http://caniuse.com/#feat=stream' ) ) . '</p>';
+			// Show the source.
+			$build .= '<p class="stats caniuse-section-text caniuse-section-stats">' . sprintf( __( 'Stats from <a target="_blank" href="%s">caniuse.com</a>', 'caniuse-shortcode' ), esc_url( 'http://caniuse.com/#feat=' . esc_attr( $feature ) ) ) . '</p>';
 
-		// close the header
+		// Close the section div.
 		$build .= '</div>';
 
-		// return it
+		// Return it.
 		return $build;
 	}
 
-// end class
+	// End class.
 }
 
-// end exists check
-}
-
-// Instantiate our class
+// Instantiate our class.
 new CIU_Shortcode_Display();

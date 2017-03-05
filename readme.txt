@@ -35,7 +35,7 @@ Chris Coyier mentioned it. I needed something to distract me for a few hours. So
 
 = How do I use the shortcode? =
 
-Place the following code in your post or page `[caniuse feature="FEATURE-NAME-NERE"]`
+Place the following code in your post or page `[caniuse feature="FEATURE-NAME-HERE"]`
 
 = Can I customize it? =
 
@@ -48,6 +48,10 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 
 == Changelog ==
+
+= 0.0.3 =
+* Fixing link back to caniuse.com to include correct feature.
+* A bunch of code cleanup.
 
 = 0.0.2 =
 * Fixed CSS bug with assigning icons to class.
