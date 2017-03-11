@@ -9,9 +9,9 @@
 
 **Requires at least:** 4.0
 
-**Tested up to:** 4.4
+**Tested up to:** 4.7
 
-**Stable tag:** 0.0.2
+**Stable tag:** 0.0.4
 
 **License:** MIT
 
@@ -61,6 +61,9 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 
 ## Changelog ##
+
+### 0.0.4 ###
+* Including directory constant in file includes.
 
 ### 0.0.3 ###
 * Fixing link back to caniuse.com to include correct feature.

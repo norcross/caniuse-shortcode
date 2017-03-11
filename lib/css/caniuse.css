@@ -152,7 +152,7 @@
 .caniuse .agents li.icon-ie:before,
 .caniuse .agents li.icon-windows:before {
 	content: "\e001";
-  /* alternate windows icon: content: "\e007" */
+	/* content: "\e007"; */ /* alternate windows icon */
 }
 
 .caniuse .agents li.icon-ios_saf:before {

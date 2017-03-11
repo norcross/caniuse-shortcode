@@ -4,8 +4,8 @@ Website Link: https://github.com/norcross/caniuse-shortcode
 Donate link: https://andrewnorcross.com/donate
 Tags: HTML5, CSS3, web standards, browser support
 Requires at least: 4.0
-Tested up to: 4.4
-Stable tag: 0.0.2
+Tested up to: 4.7
+Stable tag: 0.0.4
 License: MIT
 License URI: http://opensource.org/licenses/mit-license.php
 
@@ -48,6 +48,9 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 
 == Changelog ==
+
+= 0.0.4 =
+* Including directory constant in file includes.
 
 = 0.0.3 =
 * Fixing link back to caniuse.com to include correct feature.

@@ -4,7 +4,7 @@ Plugin Name: Can I Use? Shortcode
 Plugin URI: https://github.com/norcross/caniuse-shortcode
 Description: Provide the latest "When Can I Use" information to your readers without manual maintanence.
 Author: Andrew Norcross
-Version: 0.0.2
+Version: 0.0.4
 Requires at least: 4.0
 Author URI: http://reaktivstudios.com/
 GitHub Plugin URI: https://github.com/norcross/caniuse-shortcode
@@ -45,7 +45,7 @@ if ( ! defined( 'CIU_SHORTCODE_DIR' ) ) {
 
 // Define our version.
 if ( ! defined( 'CIU_SHORTCODE_VER' ) ) {
-	define( 'CIU_SHORTCODE_VER', '0.0.2' );
+	define( 'CIU_SHORTCODE_VER', '0.0.4' );
 }
 
 /**
@@ -85,9 +85,9 @@ class CIU_Shortcode_Core {
 		}
 
 		// Load my files.
-		require_once( 'lib/front.php' );
-		require_once( 'lib/helper.php' );
-		require_once( 'lib/display.php' );
+		require_once( CIU_SHORTCODE_DIR . 'lib/front.php' );
+		require_once( CIU_SHORTCODE_DIR . 'lib/helper.php' );
+		require_once( CIU_SHORTCODE_DIR . 'lib/display.php' );
 	}
 
 	// End class.
