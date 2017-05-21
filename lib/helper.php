@@ -67,11 +67,8 @@ class CIU_Shortcode_Helper
 		// Check for transient before going forward.
 		if ( false === $data = get_transient( $k ) ) {
 
-			// Construct the API URL.
-			$url    = apply_filters( 'ciu_data_url', 'https://raw.github.com/Fyrd/caniuse/master/data.json' );
-
-			// If for some reason we messed up the URL, bail.
-			if ( empty( $url ) ) {
+			// Construct the API URL and if for some reason we messed up the URL, bail.
+			if ( false === $url = apply_filters( 'ciu_data_url', CIU_SHORTCODE_URL ) ) {
 				return array(
 					'error' => true,
 					'cause' => 'NO_SOURCE_URL',
@@ -272,7 +269,7 @@ class CIU_Shortcode_Helper
 			$flag   = self::trim_string( $result );
 
 			// Check for the flag in our support array.
-			if ( empty( $flag ) || ! in_array( $flag, array( 'y', 'a', 'p', 'u' ) ) ) {
+			if ( empty( $flag ) || ! in_array( $flag, array( 'y', 'a', 'p' ) ) ) {
 				continue;
 			}
 
@@ -293,6 +290,7 @@ class CIU_Shortcode_Helper
 	 *
 	 * @param  string  $string  The string to trim.
 	 * @param  integer $count   How many characters to trim by.
+	 * @param  boolean $period  Whether to also check for a period and trim that.
 	 *
 	 * @return string
 	 */

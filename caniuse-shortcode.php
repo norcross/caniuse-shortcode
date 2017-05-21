@@ -48,6 +48,11 @@ if ( ! defined( 'CIU_SHORTCODE_VER' ) ) {
 	define( 'CIU_SHORTCODE_VER', '0.0.4' );
 }
 
+// Define our source data URL.
+if ( ! defined( 'CIU_SHORTCODE_URL' ) ) {
+	define( 'CIU_SHORTCODE_URL', 'https://raw.github.com/Fyrd/caniuse/master/data.json' );
+}
+
 /**
  * Lets start the engine.
  */
