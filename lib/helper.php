@@ -349,7 +349,7 @@ class CIU_Shortcode_Helper
 
 		// Set my fallback support results.
 		$base   = array(
-			'title' => $title . ' - ' . __( 'No', 'caniuse-shortcode' ),
+			'title' => $title . ' - ' . self::get_spec_support_label( 'n' ),
 			'label' => __( 'No', 'caniuse-shortcode' ),
 			'flag'  => 'n',
 			'vers'  => '',
@@ -381,6 +381,29 @@ class CIU_Shortcode_Helper
 				'flag'  => $status['flag'],
 				'vers'  => $status['vers'],
 				'pfix'  => $prefix,
+			);
+		}
+
+		// If we have the "unknown" flag, handle that.
+		if ( ! empty( $status['flag'] ) && 'u' === esc_attr( $status['flag'] ) ) {
+
+			// Check for spec support and modify the title.
+			$spec   = self::get_spec_support_label( 'u' );
+			$title  = ! empty( $spec ) ? $title . ' - ' . $spec : $title;
+
+			// Get our support prefix.
+			$prefix = self::check_support_prefix( 'u' );
+
+			// Build the version label.
+			$label  = ! empty( $prefix ) ? $status['vers'] . '*' : $status['vers'];
+
+			// Return our array.
+			return array(
+				'title' => $title,
+				'label' => $label,
+				'flag'  => $status['flag'],
+				'vers'  => $status['vers'],
+				'pfix'  => false,
 			);
 		}
 
