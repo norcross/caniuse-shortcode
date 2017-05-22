@@ -27,24 +27,19 @@ class CIU_Shortcode_Helper
 			return false;
 		}
 
-		// Set the desktop checks.
-		$desk   = apply_filters( 'ciu_checks_desktop', array( 'chrome', 'firefox', 'ie', 'opera', 'safari' ) );
+		// Set the array of data checks.
+		$checks = array(
+			'desktop'   => array( 'chrome', 'firefox', 'ie', 'opera', 'safari' ),
+			'mobile'    => array( 'ios_saf', 'android', 'op_mini', 'and_chr', 'and_ff' )
+		);
 
-		// Set the mobile checks.
-		$mobile = apply_filters( 'ciu_checks_mobile', array( 'ios_saf', 'android', 'op_mob', 'and_chr', 'and_ff' ) );
-
-		// Return desktop.
-		if ( 'desktop' === $key ) {
-			return $desk;
-		}
-
-		// Return mobile.
-		if ( 'mobile' === $key ) {
-			return $mobile;
+		// Return a subset of the data if requested.
+		if ( in_array( sanitize_key( $key ), array( 'desktop', 'mobile' ) ) ) {
+			return apply_filters( 'ciu_checks_' . $key, $checks[ $key ] );
 		}
 
 		// Set a combined array and return them.
-		return apply_filters( 'ciu_checks_grouped', array( 'desktop' => $desk, 'mobile' => $mobile ) );
+		return apply_filters( 'ciu_checks_grouped', $checks );
 	}
 
 	/**
@@ -303,6 +298,10 @@ class CIU_Shortcode_Helper
 				return __( 'Internet Explorer', 'caniuse-shortcode' );
 				break;
 
+			case 'edge':
+				return __( 'Microsoft Edge', 'caniuse-shortcode' );
+				break;
+
 			case 'ios_saf':
 				return __( 'iOS Safari', 'caniuse-shortcode' );
 				break;
@@ -350,7 +349,7 @@ class CIU_Shortcode_Helper
 
 		// Set my fallback support results.
 		$base   = array(
-			'title' => $title,
+			'title' => $title . ' - ' . __( 'No', 'caniuse-shortcode' ),
 			'label' => __( 'No', 'caniuse-shortcode' ),
 			'flag'  => 'n',
 			'vers'  => '',

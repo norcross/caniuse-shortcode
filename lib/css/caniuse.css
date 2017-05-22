@@ -155,6 +155,10 @@
 	/* content: "\e007"; */ /* alternate windows icon */
 }
 
+.caniuse .agents li.icon-edge:before {
+	content: "\e007";
+}
+
 .caniuse .agents li.icon-ios_saf:before {
 	content: "\e005";
 }
@@ -189,7 +193,8 @@
 }
 
 .caniuse .agents li.icon-ie:hover,
-.caniuse .agents li.icon-windows:hover {
+.caniuse .agents li.icon-windows:hover,
+.caniuse .agents li.icon-edge:hover {
 	background: #1a4cbd;
 }
 
