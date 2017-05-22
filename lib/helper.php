@@ -172,18 +172,38 @@ class CIU_Shortcode_Helper
 			return false;
 		}
 
-		// Set the labels in an array.
-		$labels = array(
-			'rec'   => __( 'W3C Recommendation', 'caniuse-shortcode' ),
-			'pr'    => __( 'W3C Proposed Recommendation', 'caniuse-shortcode' ),
-			'cr'    => __( 'W3C Candidate Recommendation', 'caniuse-shortcode' ),
-			'wd'    => __( 'W3C Working Draft', 'caniuse-shortcode' ),
-			'other' => __( 'Non-W3C, but Reputable', 'caniuse-shortcode' ),
-			'unoff' => __( 'Unofficial or W3C "Note"', 'caniuse-shortcode' ),
-		);
+		// Switch through my keys and return the appropriate.
+		switch ( $key ) {
 
-		// Return the key.
-		return array_key_exists( $key, $labels ) ? $labels[ $key ] : false;
+			case 'rec':
+				return __( 'W3C Recommendation', 'caniuse-shortcode' );
+				break;
+
+			case 'pr':
+				return __( 'W3C Proposed Recommendation', 'caniuse-shortcode' );
+				break;
+
+			case 'cr':
+				return __( 'W3C Candidate Recommendation', 'caniuse-shortcode' );
+				break;
+
+			case 'wd':
+				return __( 'W3C Working Draft', 'caniuse-shortcode' );
+				break;
+
+			case 'other':
+				return __( 'Non-W3C, but Reputable', 'caniuse-shortcode' );
+				break;
+
+			case 'unoff':
+				return __( 'Unofficial or W3C "Note"', 'caniuse-shortcode' );
+				break;
+
+			default :
+				return false;
+
+			// End all case breaks.
+		}
 	}
 
 	/**
@@ -200,89 +220,198 @@ class CIU_Shortcode_Helper
 			return false;
 		}
 
-		// Set the labels in an array.
-		$labels = array(
-			'y' => __( 'Yes', 'caniuse-shortcode' ),
-			'x' => __( 'With Prefix', 'caniuse-shortcode' ),
-			'n' => __( 'No', 'caniuse-shortcode' ),
-			'a' => __( 'Partial Support', 'caniuse-shortcode' ),
-			'p' => __( 'Polyfill', 'caniuse-shortcode' ),
-			'u' => __( 'Unknown', 'caniuse-shortcode' ),
-		);
+		// Switch through my keys and return the appropriate.
+		switch ( $key ) {
 
-		// Return the key.
-		return array_key_exists( $key, $labels ) ? $labels[ $key ] : false;
+			case 'y':
+				return __( 'Yes', 'caniuse-shortcode' );
+				break;
+
+			case 'y x':
+				return __( 'With Prefix', 'caniuse-shortcode' );
+				break;
+
+			case 'x':
+				return __( 'With Prefix', 'caniuse-shortcode' );
+				break;
+
+			case 'n':
+				return __( 'No', 'caniuse-shortcode' );
+				break;
+
+			case 'a':
+				return __( 'Partial Support', 'caniuse-shortcode' );
+				break;
+
+			case 'p':
+				return __( 'Polyfill', 'caniuse-shortcode' );
+				break;
+
+			case 'u':
+				return __( 'Unknown', 'caniuse-shortcode' );
+				break;
+
+			default :
+				return false;
+
+			// End all case breaks.
+		}
 	}
 
 	/**
-	 * Get the proper label for a browser key.
+	 * Get the proper title for a browser key.
 	 *
-	 * @param  string $key  Which label key we want.
+	 * @param  string $key  Which browser key we want.
 	 *
 	 * @return string
 	 */
-	public static function get_browser_label( $key = '' ) {
+	public static function get_browser_title( $key = '' ) {
 
 		// Bail with no key.
 		if ( empty( $key ) ) {
 			return false;
 		}
 
-		// Set the labels in an array.
-		$labels = array(
-			'android'   => __( 'Android', 'caniuse-shortcode' ),
-			'and_ff'    => __( 'Android Firefox', 'caniuse-shortcode' ),
-			'and_chr'   => __( 'Android Chrome', 'caniuse-shortcode' ),
-			'bb'        => __( 'Blackberry', 'caniuse-shortcode' ),
-			'chrome'    => __( 'Google Chrome', 'caniuse-shortcode' ),
-			'firefox'   => __( 'Mozilla Firefox', 'caniuse-shortcode' ),
-			'ie'        => __( 'Internet Explorer', 'caniuse-shortcode' ),
-			'ios_saf'   => __( 'iOS Safari', 'caniuse-shortcode' ),
-			'opera'     => __( 'Opera', 'caniuse-shortcode' ),
-			'op_mini'   => __( 'Opera Mini', 'caniuse-shortcode' ),
-			'op_mob'    => __( 'Opera Mobile', 'caniuse-shortcode' ),
-			'safari'    => __( 'Apple Safari', 'caniuse-shortcode' ),
-		);
+		// Switch through my keys and return the appropriate.
+		switch ( $key ) {
 
-		// Return the key.
-		return array_key_exists( $key, $labels ) ? $labels[ $key ] : false;
+			case 'android':
+				return __( 'Android', 'caniuse-shortcode' );
+				break;
+
+			case 'and_ff':
+				return __( 'Android Firefox', 'caniuse-shortcode' );
+				break;
+
+			case 'and_chr':
+				return __( 'Android Chrome', 'caniuse-shortcode' );
+				break;
+
+			case 'bb':
+				return __( 'Blackberry', 'caniuse-shortcode' );
+				break;
+
+			case 'chrome':
+				return __( 'Google Chrome', 'caniuse-shortcode' );
+				break;
+
+			case 'firefox':
+				return __( 'Mozilla Firefox', 'caniuse-shortcode' );
+				break;
+
+			case 'ie':
+				return __( 'Internet Explorer', 'caniuse-shortcode' );
+				break;
+
+			case 'ios_saf':
+				return __( 'iOS Safari', 'caniuse-shortcode' );
+				break;
+
+			case 'opera':
+				return __( 'Opera', 'caniuse-shortcode' );
+				break;
+
+			case 'op_mini':
+				return __( 'Opera Mini', 'caniuse-shortcode' );
+				break;
+
+			case 'op_mob':
+				return __( 'Opera Mobile', 'caniuse-shortcode' );
+				break;
+
+			case 'safari':
+				return __( 'Apple Safari', 'caniuse-shortcode' );
+				break;
+
+			default :
+				return false;
+
+			// End all case breaks.
+		}
 	}
 
 	/**
 	 * Check each item against the chosen browser and return the proper results.
 	 *
-	 * @param  array $dataset  Our entire dataset that we're parsing.
+	 * @param  array  $dataset  Our entire dataset that we're parsing.
+	 * @param  string $browser  Which browser we're checking.
 	 *
 	 * @return array
 	 */
-	public static function get_support_result( $dataset = array() ) {
+	public static function get_support_result( $dataset = array(), $browser = '' ) {
 
 		// Bail if no dataset was provided.
 		if ( empty( $dataset ) || ! is_array( $dataset ) ) {
 			return false;
 		}
 
-		// Loop my dataset.
-		foreach ( $dataset as $version => $result ) {
+		// Get our browser title and label.
+		$title  = self::get_browser_title( $browser );
 
-			// Do our flag substring check.
-			$flag   = self::trim_string( $result );
+		// Set my fallback support results.
+		$base   = array(
+			'title' => $title,
+			'label' => __( 'No', 'caniuse-shortcode' ),
+			'flag'  => 'n',
+			'vers'  => '',
+			'pfix'  => false,
+		);
 
-			// Check for the flag in our support array.
-			if ( empty( $flag ) || ! in_array( $flag, array( 'y', 'a', 'p' ) ) ) {
-				continue;
-			}
+		// First, get the most current support for this dataset.
+		if ( false === $status = self::get_status_detail( $dataset ) ) {
+			return $base;
+		}
+
+		// If we're in one of our good ones, grab that.
+		if ( ! empty( $status['flag'] ) && in_array( $status['flag'], array( 'y', 'y x', 'a', 'p' ) ) ) {
+
+			// Check for spec support and modify the title.
+			$spec   = self::get_spec_support_label( $status['flag'] );
+			$title  = ! empty( $spec ) ? $title . ' - ' . $spec : $title;
+
+			// Get our support prefix.
+			$prefix = self::check_support_prefix( $status['flag'] );
+
+			// Build the version label.
+			$label  = ! empty( $prefix ) ? $status['vers'] . '*' : $status['vers'];
 
 			// Return our array.
 			return array(
-				'flag'  => $flag,
-				'vers'  => self::trim_string( $version, 3, true ),
-				'pfix'  => self::check_support_prefix( $result ),
+				'title' => $title,
+				'label' => $label,
+				'flag'  => $status['flag'],
+				'vers'  => $status['vers'],
+				'pfix'  => $prefix,
 			);
 		}
 
 		// Set my fallback support results.
-		return array( 'flag' => 'n', 'vers' => '', 'pfix' => false );
+		return $base;
+	}
+
+	/**
+	 * Take our dataset and find the current support status.
+	 *
+	 * @param  array  $dataset  Our entire dataset that we're parsing.
+	 *
+	 * @return string
+	 */
+	public static function get_status_detail( $dataset = array() ) {
+
+		// Fetch the status from the end of the array.
+		$status = array_values( array_slice( $dataset, -1 ) )[0];
+
+		// And get the version we're on.
+		$vers   = array_search( $status, $dataset, true );
+
+		// Set the support status without any notes.
+		$flag   = preg_replace( '/[^a-zA-Z\s]/', '', $status );
+
+		// Return the support detail array.
+		return array(
+			'flag'  => trim( $flag ),
+			'vers'  => self::trim_string( $vers, 3, true )
+		);
 	}
 
 	/**

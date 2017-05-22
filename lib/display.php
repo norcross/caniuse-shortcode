@@ -92,19 +92,13 @@ class CIU_Shortcode_Display
 				}
 
 				// Set my browser data array.
-				$sppt   = CIU_Shortcode_Helper::get_support_result( $data[ $browser ] );
-
-				// Get some variables.
-				$blabel = CIU_Shortcode_Helper::get_browser_label( $browser );
-				$yorn   = CIU_Shortcode_Helper::get_spec_support_label( $sppt['flag'] );
-				$vlabel = ! empty( $sppt['vers'] ) ? esc_attr( $sppt['vers'] ) : __( 'No', 'caniuse-shortcode' );
-				$plabel = ! empty( $sppt['pfix'] ) ? '*' : '';
+				$result = CIU_Shortcode_Helper::get_support_result( $data[ $browser ], $browser );
 
 				// Start the markup.
-				$build .= '<li class="caniuse-agents-item icon-' . esc_attr( $browser ). ' ' . esc_attr( $sppt['flag'] ). '" title="' . esc_attr( $blabel ) . ' - ' . esc_attr( $yorn ) . '">';
+				$build .= '<li class="caniuse-agents-item icon-' . esc_attr( $browser ). ' ' . esc_attr( $result['flag'] ). '" title="' . esc_attr( $result['title'] ) . '">';
 
 				// The version label.
-				$build .= '<span class="caniuse-agents-version version">' . esc_html( $vlabel . $plabel ). '</span>';
+				$build .= '<span class="caniuse-agents-version version">' . esc_html( $result['label'] ). '</span>';
 
 				// Close the markup.
 				$build .= '</li>';
