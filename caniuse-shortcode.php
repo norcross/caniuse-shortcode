@@ -6,7 +6,7 @@ Description: Provide the latest "When Can I Use" information to your readers wit
 Author: Andrew Norcross
 Version: 0.0.5
 Requires at least: 4.0
-Author URI: http://reaktivstudios.com/
+Author URI: http://andrewnorcross.com/
 GitHub Plugin URI: https://github.com/norcross/caniuse-shortcode
 */
 /*
