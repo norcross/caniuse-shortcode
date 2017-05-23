@@ -22,24 +22,24 @@ class CIU_Shortcode_Helper
 	 */
 	public static function get_support_checks( $key = '' ) {
 
-		// Bail if no key is present.
-		if ( empty( $key ) ) {
-			return false;
-		}
-
 		// Set the array of data checks.
 		$checks = array(
 			'desktop'   => array( 'chrome', 'firefox', 'ie', 'opera', 'safari' ),
 			'mobile'    => array( 'ios_saf', 'android', 'op_mini', 'and_chr', 'and_ff' )
 		);
 
+		// Set a combined array and return them if no key requested.
+		if ( empty( $key ) ) {
+			return apply_filters( 'ciu_checks_grouped', $checks );
+		}
+
 		// Return a subset of the data if requested.
-		if ( in_array( sanitize_key( $key ), array( 'desktop', 'mobile' ) ) ) {
+		if ( ! empty( $key ) && in_array( sanitize_key( $key ), array( 'desktop', 'mobile' ) ) ) {
 			return apply_filters( 'ciu_checks_' . $key, $checks[ $key ] );
 		}
 
-		// Set a combined array and return them.
-		return apply_filters( 'ciu_checks_grouped', $checks );
+		// Bail if an invalid key is passed.
+		return false;
 	}
 
 	/**
@@ -223,9 +223,6 @@ class CIU_Shortcode_Helper
 				break;
 
 			case 'y x':
-				return __( 'With Prefix', 'caniuse-shortcode' );
-				break;
-
 			case 'x':
 				return __( 'With Prefix', 'caniuse-shortcode' );
 				break;
@@ -235,6 +232,7 @@ class CIU_Shortcode_Helper
 				break;
 
 			case 'a':
+			case 'a x':
 				return __( 'Partial Support', 'caniuse-shortcode' );
 				break;
 
@@ -357,12 +355,13 @@ class CIU_Shortcode_Helper
 		);
 
 		// First, get the most current support for this dataset.
+		// Return an unknown if nothing comes back.
 		if ( false === $status = self::get_status_detail( $dataset ) ) {
 			return $base;
 		}
 
 		// If we're in one of our good ones, grab that.
-		if ( ! empty( $status['flag'] ) && in_array( $status['flag'], array( 'y', 'y x', 'a', 'p' ) ) ) {
+		if ( ! empty( $status['flag'] ) && in_array( $status['flag'], array( 'y', 'y x', 'a', 'a x', 'p', 'p x' ) ) ) {
 
 			// Check for spec support and modify the title.
 			$spec   = self::get_spec_support_label( $status['flag'] );

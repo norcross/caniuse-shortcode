@@ -91,8 +91,10 @@ class CIU_Shortcode_Display
 					continue;
 				}
 
-				// Set my browser data array.
-				$result = CIU_Shortcode_Helper::get_support_result( $data[ $browser ], $browser );
+				// Set my browser data array and skip if none came back.
+				if ( false === $result = CIU_Shortcode_Helper::get_support_result( $data[ $browser ], $browser ) ) {
+					continue;
+				}
 
 				// Start the markup.
 				$build .= '<li class="caniuse-agents-item icon-' . esc_attr( $browser ). ' ' . esc_attr( $result['flag'] ). '" title="' . esc_attr( $result['title'] ) . '">';
