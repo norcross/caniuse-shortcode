@@ -5,7 +5,7 @@ Donate link: https://andrewnorcross.com/donate
 Tags: HTML5, CSS3, web standards, browser support
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 0.0.4
+Stable tag: 0.0.5
 License: MIT
 License URI: http://opensource.org/licenses/mit-license.php
 
@@ -48,6 +48,11 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 
 == Changelog ==
+
+= 0.0.5 =
+* Refactored data array parsing to fix inconsistent return values.
+* Set data source URL as a constant.
+* Switched Opera Mobile to Opera Mini to match the caniuse site display.
 
 = 0.0.4 =
 * Including directory constant in file includes.

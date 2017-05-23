@@ -11,7 +11,7 @@
 
 **Tested up to:** 4.7
 
-**Stable tag:** 0.0.4
+**Stable tag:** 0.0.5
 
 **License:** MIT
 
@@ -61,6 +61,11 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 
 ## Changelog ##
+
+### 0.0.5 ###
+* Refactored data array parsing to fix inconsistent return values.
+* Set data source URL as a constant.
+* Switched Opera Mobile to Opera Mini to match the caniuse site display.
 
 ### 0.0.4 ###
 * Including directory constant in file includes.
